@@ -71,7 +71,7 @@ def na_hack_naba(email,password):
         print(65 * '\033[1;92m=')
         return True
     except:
-      na_hack_naba(emai,password)
+      na_hack_naba(email,password)
     return False
 
 def change_ip():
