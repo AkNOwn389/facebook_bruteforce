@@ -1,7 +1,7 @@
 # facebook_bruteforce
 The new version of the bruteforce system on facebook I did this because many fake scripts don't work 
 # use python3 
-''' shell
+'''shell
 $ git clone https://github.com/dariusgab/facebook_bruteforce 
 $ cd facebook_bruteforce 
 $ python3 facebook.py 
