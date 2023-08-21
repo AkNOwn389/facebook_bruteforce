@@ -10,3 +10,6 @@ python3 facebook.py
 ![Screenshot](https://github.com/dariusgab/facebook_bruteforce/raw/main/IMG_1652645174941.jpg)
 # warning
 i have nothing to do with whatever you do with my script.
+
+# Thanks
+<a href="https://buymeacoffee.com/dariusofficia10" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
